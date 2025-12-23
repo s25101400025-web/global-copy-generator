@@ -70,13 +70,18 @@ if st.button("サプリを受け取る"):
     st.balloons()
     st.snow()
     # ツイート用URLの作成（自動で文章が入るようにします）
-    res_text = f"今の私への言葉は『{selected_quote}』でした。✨"
-    # 実際のアプリのURLをここに直接書きます
+# 実際のアプリのURL（ここはそのままでOKです）
     my_app_url = "https://global-copy-generator-6gfqravah5oguhql6eoule.streamlit.app/"
+
+    # ✨ ツイート文面のカスタマイズ
+    # 「ココロのサプリより」という文言を追加しました
+    res_text = f"💊ココロのサプリより今の私への言葉は『{selected_quote}』でした。✨"
     
+    # Twitterに送るためのリンクを作成
     tweet_url = f"https://twitter.com/intent/tweet?text={res_text}&url={my_app_url}"
     
-    st.write(f"[🐦 この結果をツイートする]({tweet_url})")
+    # 画面にリンクを表示
+    st.write(f"### [🐦 この結果をツイートする]({tweet_url})")
 
 st.markdown("---")
 st.caption("Produced by My First App | 言葉ひとつで、明日はもっと良くなる。")
