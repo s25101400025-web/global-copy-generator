@@ -2,7 +2,8 @@ import streamlit as st
 import google.generativeai as genai
 
 # 1. APIキーの設定（取得したキーをここに貼り付けてください）
-GOOGLE_API_KEY = "AIzaSyB59vxX7cikD4FM0yLvmilZmh8OL2KRX2Q"
+# 1. APIキーの設定（Secretsから読み込む）
+GOOGLE_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # アプリのタイトル
