@@ -1,65 +1,72 @@
 import streamlit as st
-import requests
-
-# 1. APIキーの設定
-if "GEMINI_API_KEY" not in st.secrets:
-    st.error("Secretsに 'GEMINI_API_KEY' が設定されていません。")
-    st.stop()
-
-api_key = st.secrets["GEMINI_API_KEY"]
+import random
 
 # アプリの設定
-st.set_page_config(page_title="心に響くコピー生成器", page_icon="✍️")
-st.title("✍️ 心に響くコピー生成器")
+st.set_page_config(page_title="ココロのサプリ", page_icon="💊")
 
-# 2. 入力フォーム
-with st.sidebar:
-    st.header("📦 プロダクトの想い")
-    p_name = st.text_input("プロダクト名", value="ミライポスト")
-    p_target = st.text_input("届けたい相手", value="20年後の自分へ手紙を書きたい人")
-    p_feat = st.text_area("特徴や込めた願い", value="忘れたくない「今」を未来に届けるサービス。")
+st.title("💊 ココロのサプリ")
+st.write("今のあなたにぴったりの言葉を届けます。")
 
-# 3. 生成ロジック
-if st.button("心を動かす言葉を紡ぐ"):
-    if not p_name or not p_feat:
-        st.warning("情報を入力してください。")
+# 1. 質問コーナー
+st.header("今のことを少し教えてください")
+
+q1 = st.select_slider(
+    "1. 今、どれくらいお疲れですか？",
+    options=["元気！", "ちょっと疲れ気味", "かなりヘトヘト", "もう限界..."]
+)
+
+q2 = st.selectbox(
+    "2. 何について悩んでいますか？",
+    ["人間関係", "将来のこと", "仕事や勉強", "なんとなく不安", "特にないけど元気が出ない"]
+)
+
+q3 = st.radio(
+    "3. どんな風に声をかけてほしいですか？",
+    ["優しく包み込んでほしい", "背中をガツンと押してほしい", "クスッと笑わせてほしい"]
+)
+
+# 2. 名言データベース（ここを増やすとどんどん楽しくなります）
+quotes = {
+    "優しく": [
+        "大丈夫、明日の自分に任せちゃおう。",
+        "あなたはもう、十分すぎるくらい頑張っています。",
+        "休むことも、立派な仕事のひとつですよ。"
+    ],
+    "ガツンと": [
+        "下を向いていたら、虹を見つけることはできないよ。（チャップリン）",
+        "追い込まれた時こそ、新しい自分が生まれるチャンスだ。",
+        "とりあえず、温かい飲み物でも飲んでから考えようぜ！"
+    ],
+    "笑わせて": [
+        "人生は近くで見ると悲劇だが、遠くから見れば喜劇だ。（チャップリン）",
+        "悩みの9割は、寝て起きたら忘れるように人間はできています（たぶん）。",
+        "宇宙の広さに比べたら、今の悩みは豆粒みたいなもんですよ！"
+    ]
+}
+
+# 3. 診断ボタン
+if st.button("サプリを受け取る"):
+    st.markdown("---")
+    
+    # 選択に合わせたメッセージの抽出
+    if "優しく" in q3:
+        target_list = quotes["優しく"]
+    elif "ガツンと" in q3:
+        target_list = quotes["ガツンと"]
     else:
-        # 💡 【重要】確実に動く「v1beta」と「gemini-1.5-flash」の組み合わせに固定します
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-        
-        headers = {'Content-Type': 'application/json'}
-        
-        prompt = f"""
-        あなたは日本を代表するコピーライターです。
-        ゼクシィの広告コピーのように、人生の機微に触れる深いキャッチコピーを提案してください。
-        機能の説明ではなく、その先にある感情を言葉にしてください。
+        target_list = quotes["笑わせて"]
+    
+    selected_quote = random.choice(target_list)
+    
+    # 結果表示
+    st.subheader("✨ 今のあなたへの言葉")
+    st.info(f"### {selected_quote}")
+    
+    # 疲れ具合に合わせた追加アドバイス
+    if q1 == "もう限界...":
+        st.warning("相当お疲れですね。今日はスマホを置いて、早めに寝ることを強くおすすめします。")
+    
+    st.balloons()
 
-        プロダクト名: {p_name}
-        相手: {p_target}
-        想い: {p_feat}
-        """
-
-        payload = {
-            "contents": [{"parts": [{"text": prompt}]}]
-        }
-        
-        try:
-            with st.spinner('言葉を紡いでいます...'):
-                response = requests.post(url, headers=headers, json=payload)
-                result = response.json()
-                
-                if response.status_code == 200:
-                    output_text = result['candidates'][0]['content']['parts'][0]['text']
-                    st.success("成功しました！")
-                    st.markdown("---")
-                    st.write(output_text)
-                    st.balloons()
-                else:
-                    # エラーメッセージを分かりやすく表示
-                    error_msg = result.get('error', {}).get('message', '不明なエラー')
-                    st.error(f"エラーが発生しました（コード: {response.status_code}）")
-                    st.write(f"原因: {error_msg}")
-                    st.info("APIキーが正しく貼り付けられているか、もう一度確認してみてください。")
-                    
-        except Exception as e:
-            st.error(f"接続エラー: {e}")
+st.markdown("---")
+st.caption("Produced by My First App | 誰かの心が、少しでも軽くなりますように。")
