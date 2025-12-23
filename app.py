@@ -69,6 +69,11 @@ if st.button("サプリを受け取る"):
     # ✨ 魔法2：風船に加えて「雪」を降らせる演出
     st.balloons()
     st.snow()
+    # ツイート用URLの作成（自動で文章が入るようにします）
+    res_text = f"今の私への言葉は『{selected_quote}』でした。✨"
+    tweet_url = f"https://twitter.com/intent/tweet?text={res_text}&url={st.get_option('browser.gatherUsageStats') and 'アプリのURLをここに貼る' or ''}"
+    
+    st.write(f"[🐦 この結果をツイートする]({tweet_url})")
 
 st.markdown("---")
 st.caption("Produced by My First App | 言葉ひとつで、明日はもっと良くなる。")
