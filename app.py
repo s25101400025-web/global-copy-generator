@@ -25,7 +25,7 @@ q3 = st.radio(
     ["優しく包み込んでほしい", "背中をガツンと押してほしい", "クスッと笑わせてほしい"]
 )
 
-# 2. 名言データベース（ここを増やすとどんどん楽しくなります）
+# 名言データベース
 quotes = {
     "優しく": [
         "大丈夫、明日の自分に任せちゃおう。",
@@ -48,7 +48,6 @@ quotes = {
 if st.button("サプリを受け取る"):
     st.markdown("---")
     
-    # 選択に合わせたメッセージの抽出
     if "優しく" in q3:
         target_list = quotes["優しく"]
     elif "ガツンと" in q3:
@@ -58,15 +57,18 @@ if st.button("サプリを受け取る"):
     
     selected_quote = random.choice(target_list)
     
-    # 結果表示
+    # ✨ 魔法1：文字を大きく、インパクトのある表示に変更
     st.subheader("✨ 今のあなたへの言葉")
-    st.info(f"### {selected_quote}")
+    # st.infoの代わりに Markdownのデカ文字(##) を使用
+    st.markdown(f"## 「 {selected_quote} 」")
     
-    # 疲れ具合に合わせた追加アドバイス
+    # 疲れ具合に合わせたメッセージ
     if q1 == "もう限界...":
         st.warning("相当お疲れですね。今日はスマホを置いて、早めに寝ることを強くおすすめします。")
     
+    # ✨ 魔法2：風船に加えて「雪」を降らせる演出
     st.balloons()
+    st.snow()
 
 st.markdown("---")
-st.caption("Produced by My First App | 誰かの心が、少しでも軽くなりますように。")
+st.caption("Produced by My First App | 言葉ひとつで、明日はもっと良くなる。")
