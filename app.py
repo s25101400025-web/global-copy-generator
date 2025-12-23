@@ -5,32 +5,46 @@ import quotes
 # アプリの設定
 st.set_page_config(page_title="ココロのサプリ", page_icon="💊")
 
-# --- ✨ デザイン設定（修正版） ---
+# --- ✨ 目に優しい黄緑デザイン設定 ---
 st.markdown("""
     <style>
-    /* 全体の背景色を優しいグラデーションに */
+    /* 1. 全体の背景：目に優しい淡い黄緑のグラデーション */
     .stApp {
-        background: linear-gradient(135deg, #e0f7fa 0%, #fff9c4 100%);
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     }
     
-    /* ボタンを丸くして色を変える */
+    /* 2. 文字の色を濃くして読みやすくする */
+    h1, h2, h3, p, span, label {
+        color: #166534 !important; /* 濃い緑色 */
+        font-weight: 600;
+    }
+
+    /* 3. ボタンのデザイン：視認性の高いオレンジ */
     div.stButton > button:first-child {
-        background-color: #ff8a65 !important;
+        background-color: #16a34a !important; /* 濃いめの緑 */
         color: white !important;
-        border-radius: 20px !important;
+        border-radius: 25px !important;
         border: none !important;
-        padding: 10px 20px !important;
-        font-weight: bold !important;
+        padding: 12px 24px !important;
+        font-size: 18px !important;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
     }
     
-    /* 名言の表示エリアを白背景のカード風にする */
+    /* 4. 名言を表示するカード：白背景で文字を際立たせる */
     .quote-card {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 25px;
-        border-radius: 15px;
-        border-left: 8px solid #ff8a65;
-        margin: 20px 0;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.05);
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 20px;
+        border: 2px solid #bbf7d0;
+        margin: 25px 0;
+        box-shadow: 0px 10px 20px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    
+    .quote-text {
+        color: #15803d !important;
+        font-size: 24px !important;
+        line-height: 1.6;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -70,11 +84,11 @@ if st.button("サプリを受け取る"):
     shuffled_quotes = random.sample(source_list, len(source_list))
     selected_quote = shuffled_quotes[0]
     
-    # ✨ 結果表示（カード風デザインを適用）
+    # ✨ 結果表示：白いカードの中に濃い緑の文字で表示
     st.subheader("✨ 今のあなたへの言葉")
     st.markdown(f"""
         <div class="quote-card">
-            <h2 style='color: #455a64; margin: 0;'>「 {selected_quote} 」</h2>
+            <div class="quote-text">「 {selected_quote} 」</div>
         </div>
         """, unsafe_allow_html=True)
     
