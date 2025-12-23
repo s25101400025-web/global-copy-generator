@@ -1,5 +1,7 @@
 import streamlit as st
 import random
+# 💡 作成した quotes.py を読み込みます
+import quotes 
 
 # アプリの設定
 st.set_page_config(page_title="ココロのサプリ", page_icon="💊")
@@ -25,63 +27,37 @@ q3 = st.radio(
     ["優しく包み込んでほしい", "背中をガツンと押してほしい", "クスッと笑わせてほしい"]
 )
 
-# 名言データベース
-quotes = {
-    "優しく": [
-        "大丈夫、明日の自分に任せちゃおう。",
-        "あなたはもう、十分すぎるくらい頑張っています。",
-        "休むことも、立派な仕事のひとつですよ。"
-    ],
-    "ガツンと": [
-        "下を向いていたら、虹を見つけることはできないよ。（チャップリン）",
-        "追い込まれた時こそ、新しい自分が生まれるチャンスだ。",
-        "とりあえず、温かい飲み物でも飲んでから考えようぜ！"
-    ],
-    "笑わせて": [
-        "人生は近くで見ると悲劇だが、遠くから見れば喜劇だ。（チャップリン）",
-        "悩みの9割は、寝て起きたら忘れるように人間はできています（たぶん）。",
-        "宇宙の広さに比べたら、今の悩みは豆粒みたいなもんですよ！"
-    ]
-}
-
-# 3. 診断ボタン
+# 2. 診断ボタン
 if st.button("サプリを受け取る"):
     st.markdown("---")
     
+    # ✨ 倉庫(quotes.py)からリストを選択
     if "優しく" in q3:
-        target_list = quotes["優しく"]
+        source_list = quotes.YASASHI
     elif "ガツンと" in q3:
-        target_list = quotes["ガツンと"]
+        source_list = quotes.GATUN
     else:
-        target_list = quotes["笑わせて"]
+        source_list = quotes.WARAI
     
-    selected_quote = random.choice(target_list)
+    # ✨ 被りを防ぐためにシャッフルして1つ選ぶ
+    selected_quote = random.choice(source_list)
     
-    # ✨ 魔法1：文字を大きく、インパクトのある表示に変更
+    # 結果表示
     st.subheader("✨ 今のあなたへの言葉")
-    # st.infoの代わりに Markdownのデカ文字(##) を使用
     st.markdown(f"## 「 {selected_quote} 」")
     
-    # 疲れ具合に合わせたメッセージ
+    # ツイート用設定
+    my_app_url = "https://global-copy-generator-6gfqravah5oguhql6eoule.streamlit.app/"
+    res_text = f"💊ココロのサプリより今の私への言葉は『{selected_quote}』でした。✨"
+    tweet_url = f"https://twitter.com/intent/tweet?text={res_text}&url={my_app_url}"
+    
+    st.write(f"### [🐦 この結果をツイートする]({tweet_url})")
+    
     if q1 == "もう限界...":
         st.warning("相当お疲れですね。今日はスマホを置いて、早めに寝ることを強くおすすめします。")
     
-    # ✨ 魔法2：風船に加えて「雪」を降らせる演出
     st.balloons()
     st.snow()
-    # ツイート用URLの作成（自動で文章が入るようにします）
-# 実際のアプリのURL（ここはそのままでOKです）
-    my_app_url = "https://global-copy-generator-6gfqravah5oguhql6eoule.streamlit.app/"
-
-    # ✨ ツイート文面のカスタマイズ
-    # 「ココロのサプリより」という文言を追加しました
-    res_text = f"💊ココロのサプリより今の私への言葉は『{selected_quote}』でした。✨"
-    
-    # Twitterに送るためのリンクを作成
-    tweet_url = f"https://twitter.com/intent/tweet?text={res_text}&url={my_app_url}"
-    
-    # 画面にリンクを表示
-    st.write(f"### [🐦 この結果をツイートする]({tweet_url})")
 
 st.markdown("---")
 st.caption("Produced by My First App | 言葉ひとつで、明日はもっと良くなる。")
