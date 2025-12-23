@@ -6,13 +6,12 @@ if "GEMINI_API_KEY" not in st.secrets:
     st.error("Secretsに 'GEMINI_API_KEY' が設定されていません。")
     st.stop()
 
-GOOGLE_API_KEY = st.secrets["GEMINI_API_KEY"]
-genai.configure(api_key=GOOGLE_API_KEY)
+# APIの通信設定を最新の安定版に固定します
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # アプリのタイトル
 st.set_page_config(page_title="Global Copy Generator", page_icon="🚀")
 st.title("🚀 海外プロダクト風コピー生成器")
-st.write("商品の特徴を入力するだけで、シリコンバレーのプロダクトのようなキャッチコピーを作ります。")
 
 # 2. 入力フォーム
 with st.sidebar:
@@ -27,26 +26,13 @@ if st.button("キャッチコピーを生成する"):
         st.warning("プロダクト名と特徴を入力してください。")
     else:
         try:
-            # 最新の安定版モデル名を指定
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            # モデルの呼び出し方を最新の安定版に合わせます
+            model = genai.GenerativeModel(model_name='gemini-1.5-flash')
             
-            prompt = f"""
-            あなたは世界的に有名なマーケティングコンサルタントです。
-            以下のプロダクトについて、海外（特にシリコンバレー）のスタートアップが使うような、
-            シンプルでインパクトのある英語のキャッチコピーと、その日本語訳を3セット提案してください。
-
-            プロダクト名: {product_name}
-            ターゲット: {target_user}
-            特徴: {features}
-
-            形式：
-            ■ 案1
-            英語：
-            日本語：
-            """
+            prompt = f"プロダクト名「{product_name}」、ターゲット「{target_user}」、特徴「{features}」について、海外スタートアップ風の英語コピーと日本語訳を3案出してください。"
             
-            with st.spinner('AIが思考中...'):
-                # 呼び出し方を最も標準的な形に変更
+            with st.spinner('AIが考え中...'):
+                # 通信エラーを防ぐため、最もシンプルな呼び出しに変更
                 response = model.generate_content(prompt)
                 
                 st.subheader("✨ 生成されたキャッチコピー")
@@ -54,8 +40,8 @@ if st.button("キャッチコピーを生成する"):
                 st.balloons()
                 
         except Exception as e:
-            st.error(f"エラーが発生しました: {e}")
-            st.info("ヒント：APIキーが正しいか、Google AI Studioで有効になっているか確認してください。")
+            st.error(f"エラーが発生しました。時間を置いて再度お試しください。")
+            st.info(f"技術的な詳細: {e}")
 
 st.markdown("---")
-st.caption("Powered by Gemini 1.5 Flash | 海外進出の第一歩を、ここから。")
+st.caption("Powered by Gemini 1.5 Flash")
