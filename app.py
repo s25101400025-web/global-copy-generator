@@ -71,7 +71,10 @@ if st.button("サプリを受け取る"):
     st.snow()
     # ツイート用URLの作成（自動で文章が入るようにします）
     res_text = f"今の私への言葉は『{selected_quote}』でした。✨"
-    tweet_url = f"https://twitter.com/intent/tweet?text={res_text}&url={st.get_option('browser.gatherUsageStats') and 'アプリのURLをここに貼る' or ''}"
+    # 実際のアプリのURLをここに直接書きます
+    my_app_url = "https://global-copy-generator-6gfqravah5oguhql6eoule.streamlit.app/"
+    
+    tweet_url = f"https://twitter.com/intent/tweet?text={res_text}&url={my_app_url}"
     
     st.write(f"[🐦 この結果をツイートする]({tweet_url})")
 
