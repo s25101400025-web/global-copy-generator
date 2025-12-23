@@ -24,14 +24,16 @@ if st.button("心を動かす言葉を紡ぐ"):
     if not p_name or not p_feat:
         st.warning("情報を入力してください。")
     else:
-        # 💡 通信先URLを最も安定した「v1/models/gemini-pro」に固定
-        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={api_key}"
+        # 💡 【重要】確実に動く「v1beta」と「gemini-1.5-flash」の組み合わせに固定します
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
         
         headers = {'Content-Type': 'application/json'}
         
         prompt = f"""
         あなたは日本を代表するコピーライターです。
         ゼクシィの広告コピーのように、人生の機微に触れる深いキャッチコピーを提案してください。
+        機能の説明ではなく、その先にある感情を言葉にしてください。
+
         プロダクト名: {p_name}
         相手: {p_target}
         想い: {p_feat}
@@ -53,9 +55,11 @@ if st.button("心を動かす言葉を紡ぐ"):
                     st.write(output_text)
                     st.balloons()
                 else:
-                    # エラー時は詳細を表示して原因を探ります
+                    # エラーメッセージを分かりやすく表示
+                    error_msg = result.get('error', {}).get('message', '不明なエラー')
                     st.error(f"エラーが発生しました（コード: {response.status_code}）")
-                    st.write(result.get('error', {}).get('message', '不明なエラー'))
+                    st.write(f"原因: {error_msg}")
+                    st.info("APIキーが正しく貼り付けられているか、もう一度確認してみてください。")
                     
         except Exception as e:
             st.error(f"接続エラー: {e}")
