@@ -28,7 +28,7 @@ if st.button("キャッチコピーを生成する"):
         with st.spinner("AIが最高のコピーを考案中..."):
             try:
                 # 4. AIへの指示（プロンプト）
-                model = genai.GenerativeModel('gemini-1.5-flash')
+                model = genai.GenerativeModel('gemini-pro')
                 prompt = f"""
                 あなたはシリコンバレーの一流コピーライターです。
                 以下のプロダクトに対して、海外のテックプロダクト風の洗練されたキャッチコピーを生成してください。
