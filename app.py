@@ -26,7 +26,7 @@ if st.button("心を動かす言葉を紡ぐ"):
         st.warning("プロダクト名と特徴（想い）を入力してください。")
     else:
         # 通信先の設定（最新の安定版 v1 を使用）
-        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
+        url = url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={api_key}"
         
         headers = {'Content-Type': 'application/json'}
         
