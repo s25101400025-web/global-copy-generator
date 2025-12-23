@@ -2,7 +2,36 @@ import streamlit as st
 import random
 # 先ほど作成した quotes.py を読み込みます
 import quotes 
-
+# --- デザイン設定 (ここから追加) ---
+st.markdown("""
+    <style>
+    /* 全体の背景色を優しいパステルブルーに */
+    .stApp {
+        background: linear-gradient(135deg, #e0f7fa 0%, #fff9c4 100%);
+    }
+    
+    /* ボタンを丸くして色を変える */
+    div.stButton > button:first-child {
+        background-color: #ff8a65;
+        color: white;
+        border-radius: 20px;
+        border: none;
+        padding: 10px 20px;
+        font-weight: bold;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    /* 名言の表示エリアをカード風にする */
+    .stMarkdown h2 {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 15px;
+        border-left: 5px solid #ff8a65;
+        color: #455a64;
+    }
+    </style>
+    """, unsafe_allow_stdio=True, unsafe_allow_html=True)
+# --- デザイン設定 (ここまで追加) ---
 # アプリの設定
 st.set_page_config(page_title="ココロのサプリ", page_icon="💊")
 
